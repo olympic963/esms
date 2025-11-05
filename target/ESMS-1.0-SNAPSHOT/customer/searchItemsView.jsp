@@ -65,21 +65,39 @@
                                     </table>
                                 </div>
 
-                                <nav aria-label="Phân trang">
-                                    <ul class="pagination justify-content-center">
-                                        <li class="page-item <c:if test='${currentPage == 1}'>disabled</c:if>'">
-                                            <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${currentPage-1}">Trước</a>
-                                        </li>
-                                        <c:forEach begin="1" end="${totalPages}" var="p">
-                                            <li class="page-item <c:if test='${p == currentPage}'>active</c:if>'">
-                                                <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${p}">${p}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <li class="page-item <c:if test='${currentPage == totalPages}'>disabled</c:if>'">
-                                            <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${currentPage+1}">Sau</a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                                <c:if test="${totalPages > 1}">
+                                    <nav aria-label="Phân trang">
+                                        <ul class="pagination justify-content-center">
+                                            <c:if test="${currentPage > 1}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=1">Trang đầu</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${currentPage-1}">Lùi</a>
+                                                </li>
+                                            </c:if>
+                                            <c:if test="${ellipsisFirst}">
+                                                <li class="page-item disabled"><a class="page-link">...</a></li>
+                                            </c:if>
+                                            <c:forEach var="p" items="${pageRange}">
+                                                <li class="page-item <c:if test='${p == currentPage}'>active</c:if>'">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${p}">${p}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${ellipsisEnd}">
+                                                <li class="page-item disabled"><a class="page-link">...</a></li>
+                                            </c:if>
+                                            <c:if test="${currentPage < totalPages}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${currentPage+1}">Tiến</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${totalPages}">Trang cuối</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </c:if>
                             </c:otherwise>
                         </c:choose>
                     </c:if>

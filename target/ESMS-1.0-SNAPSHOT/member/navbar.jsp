@@ -2,9 +2,18 @@
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
-        <a class="navbar-brand" href="${pageContext.request.contextPath}/customer/customerHomeView.jsp">
-            Siêu thị PTIT
-        </a>
+        <c:choose>
+            <c:when test="${not empty sessionScope.currentUser and sessionScope.currentUser.role eq 'manager'}">
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/manager/managerHomeView.jsp">
+                    Siêu thị PTIT
+                </a>
+            </c:when>
+            <c:otherwise>
+                <a class="navbar-brand" href="${pageContext.request.contextPath}/customer/customerHomeView.jsp">
+                    Siêu thị PTIT
+                </a>
+            </c:otherwise>
+        </c:choose>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
