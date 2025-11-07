@@ -1,6 +1,7 @@
 package com.mycompany.esms.servlet;
 
 import com.mycompany.esms.dao.MemberDAO;
+import com.mycompany.esms.dao.MemberDAO.AuthenticationResult;
 import com.mycompany.esms.model.Member;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
@@ -91,36 +92,59 @@ public class AuthenticationServlet extends HttpServlet {
             return;
         }
 
-        Member member = memberDAO.authenticate(username, password);
-        
-        if (member != null) {
-            // Login successful
-            HttpSession session = request.getSession();
-            session.setAttribute("currentUser", member);
-            session.setAttribute("username", member.getUsername());
-            session.setAttribute("userId", member.getId());
-            
-            // Redirect based on role
-            String role = member.getRole();
-            if (role != null) {
-                if ("customer".equalsIgnoreCase(role)) {
-                    response.sendRedirect(request.getContextPath() + "/customer/customerHomeView.jsp");
-                } else if ("manager".equalsIgnoreCase(role)) {
-                    response.sendRedirect(request.getContextPath() + "/manager/managerHomeView.jsp");
+        AuthenticationResult result = memberDAO.authenticateWithLock(username, password);
+
+        switch (result.getStatus()) {
+            case SUCCESS: {
+                Member member = result.getMember();
+                HttpSession session = request.getSession();
+                session.setAttribute("currentUser", member);
+                session.setAttribute("username", member.getUsername());
+                session.setAttribute("userId", member.getId());
+
+                String role = member.getRole();
+                if (role != null) {
+                    if ("customer".equalsIgnoreCase(role)) {
+                        response.sendRedirect(request.getContextPath() + "/customer/customerHomeView.jsp");
+                    } else if ("employee".equalsIgnoreCase(role)) {
+                        // Lấy position từ tblEmployee để xác định quyền truy cập
+                        String position = memberDAO.getEmployeePosition(member.getId());
+                        session.setAttribute("employeePosition", position);
+                        
+                        if (position != null && "manager".equalsIgnoreCase(position)) {
+                            response.sendRedirect(request.getContextPath() + "/manager/managerHomeView.jsp");
+                        } else {
+                            request.setAttribute("errorMessage", "Tính năng này chưa phát triển. Vị trí của bạn (" + position + ") hiện chưa được hỗ trợ.");
+                            showErrorPage(request, response);
+                        }
+                    } else {
+                        request.setAttribute("errorMessage", "Tính năng này chưa phát triển. Vai trò của bạn (" + role + ") hiện chưa được hỗ trợ.");
+                        showErrorPage(request, response);
+                    }
                 } else {
-                    // Other roles - show not developed message
-                    request.setAttribute("errorMessage", "Tính năng này chưa phát triển. Vai trò của bạn (" + role + ") hiện chưa được hỗ trợ.");
-                    showErrorPage(request, response);
+                    response.sendRedirect(request.getContextPath() + "/customer/customerHomeView.jsp");
                 }
-            } else {
-                // No role specified - default to customer
-                response.sendRedirect(request.getContextPath() + "/customer/customerHomeView.jsp");
+                break;
             }
-        } else {
-            // Login failed
-            request.setAttribute("errorMessage", "Invalid username or password");
-            request.setAttribute("username", username);
-            showLoginForm(request, response);
+            case ACCOUNT_LOCKED: {
+                request.setAttribute("lockedUsername", username);
+                request.getRequestDispatcher("/member/accountLocked.jsp").forward(request, response);
+                break;
+            }
+            case INVALID_CREDENTIALS: {
+                int remaining = result.getRemainingAttempts();
+                final int maxAttempts = 5;
+                StringBuilder message = new StringBuilder("Tên đăng nhập hoặc mật khẩu không đúng.");
+                if (remaining >= 0 && remaining < maxAttempts) {
+                    message.append(" Bạn còn ").append(remaining).append(" lần thử trước khi tài khoản bị khóa.");
+                }
+                request.setAttribute("errorMessage", message.toString());
+                request.setAttribute("username", username);
+                showLoginForm(request, response);
+                break;
+            }
+            default:
+                break;
         }
     }
 

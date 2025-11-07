@@ -29,33 +29,33 @@ public class DefaultAccountInitializer {
             
             // Chèn tài khoản nhân viên bán hàng
             insertSalesEmployee("Phạm Văn Đức", "sales1", "phamvanduc@example.com", 
-                    "0987654321", LocalDate.of(1995, 3, 25), "Nhân viên bán hàng");
+                    "0987654321", LocalDate.of(1995, 3, 25), "sales");
             insertSalesEmployee("Hoàng Thị Em", "sales2", "hoangthiem@example.com", 
-                    "0987654322", LocalDate.of(1993, 7, 12), "Nhân viên bán hàng");
+                    "0987654322", LocalDate.of(1993, 7, 12), "sales");
             
             // Chèn tài khoản nhân viên kho
             insertWarehouseEmployee("Vũ Văn Phong", "warehouse1", "vuvanphong@example.com", 
-                    "0912345678", LocalDate.of(1991, 2, 18), "Nhân viên kho");
+                    "0912345678", LocalDate.of(1991, 2, 18), "warehouse");
             insertWarehouseEmployee("Đặng Thị Giang", "warehouse2", "dangthigiang@example.com", 
-                    "0912345679", LocalDate.of(1994, 9, 5), "Nhân viên kho");
+                    "0912345679", LocalDate.of(1994, 9, 5), "warehouse");
             insertWarehouseEmployee("Nguyễn Hữu Khang", "warehouse3", "nguyenhuukhang@example.com", 
-                    "0912345680", LocalDate.of(1992, 1, 9), "Nhân viên kho");
+                    "0912345680", LocalDate.of(1992, 1, 9), "warehouse");
             insertWarehouseEmployee("Trần Quốc Lợi", "warehouse4", "tranquocloi@example.com", 
-                    "0912345681", LocalDate.of(1990, 12, 2), "Nhân viên kho");
+                    "0912345681", LocalDate.of(1990, 12, 2), "warehouse");
             insertWarehouseEmployee("Phạm Thị Mai", "warehouse5", "phamthimai@example.com", 
-                    "0912345682", LocalDate.of(1993, 6, 14), "Nhân viên kho");
+                    "0912345682", LocalDate.of(1993, 6, 14), "warehouse");
             
             // Chèn tài khoản nhân viên giao hàng
             insertDeliveryEmployee("Bùi Văn Hùng", "delivery1", "buivanhung@example.com", 
-                    "0934567890", LocalDate.of(1989, 11, 30), "Nhân viên giao hàng");
+                    "0934567890", LocalDate.of(1989, 11, 30), "delivery");
             insertDeliveryEmployee("Ngô Thị Lan", "delivery2", "ngothilan@example.com", 
-                    "0934567891", LocalDate.of(1996, 4, 22), "Nhân viên giao hàng");
+                    "0934567891", LocalDate.of(1996, 4, 22), "delivery");
             
             // Chèn tài khoản quản lý
             insertManager("Trần Văn Quản", "manager1", "tranvanquan@example.com", 
-                    "0901234567", LocalDate.of(1985, 6, 15), "Quản lý");
+                    "0901234567", LocalDate.of(1985, 6, 15), "manager");
             insertManager("Lê Thị Lý", "manager2", "lethily@example.com", 
-                    "0901234568", LocalDate.of(1987, 9, 28), "Quản lý");
+                    "0901234568", LocalDate.of(1987, 9, 28), "manager");
             
             System.out.println("Da khoi tao thanh cong cac tai khoan mac dinh!");
             
@@ -153,7 +153,7 @@ public class DefaultAccountInitializer {
             memberPs.setDate(4, java.sql.Date.valueOf(birthdate));
             memberPs.setString(5, email);
             memberPs.setString(6, phoneNumber);
-            memberPs.setString(7, "sales");
+            memberPs.setString(7, "employee");
             memberPs.executeUpdate();
             
             // Lấy ID vừa insert
@@ -170,7 +170,7 @@ public class DefaultAccountInitializer {
             PreparedStatement employeePs = conn.prepareStatement(employeeSql);
             employeePs.setInt(1, memberId);
             employeePs.setString(2, position);
-            employeePs.setString(3, "true");
+            employeePs.setInt(3, 1); // 1 = active (true), 0 = inactive (false)
             employeePs.executeUpdate();
             employeePs.close();
             
@@ -223,7 +223,7 @@ public class DefaultAccountInitializer {
             memberPs.setDate(4, java.sql.Date.valueOf(birthdate));
             memberPs.setString(5, email);
             memberPs.setString(6, phoneNumber);
-            memberPs.setString(7, "warehouse");
+            memberPs.setString(7, "employee");
             memberPs.executeUpdate();
             
             // Lấy ID vừa insert
@@ -240,7 +240,7 @@ public class DefaultAccountInitializer {
             PreparedStatement employeePs = conn.prepareStatement(employeeSql);
             employeePs.setInt(1, memberId);
             employeePs.setString(2, position);
-            employeePs.setString(3, "true");
+            employeePs.setInt(3, 1); // 1 = active (true), 0 = inactive (false)
             employeePs.executeUpdate();
             employeePs.close();
             
@@ -293,7 +293,7 @@ public class DefaultAccountInitializer {
             memberPs.setDate(4, java.sql.Date.valueOf(birthdate));
             memberPs.setString(5, email);
             memberPs.setString(6, phoneNumber);
-            memberPs.setString(7, "delivery");
+            memberPs.setString(7, "employee");
             memberPs.executeUpdate();
             
             // Lấy ID vừa insert
@@ -310,7 +310,7 @@ public class DefaultAccountInitializer {
             PreparedStatement employeePs = conn.prepareStatement(employeeSql);
             employeePs.setInt(1, memberId);
             employeePs.setString(2, position);
-            employeePs.setString(3, "true");
+            employeePs.setInt(3, 1); // 1 = active (true), 0 = inactive (false)
             employeePs.executeUpdate();
             employeePs.close();
             
@@ -363,7 +363,7 @@ public class DefaultAccountInitializer {
             memberPs.setDate(4, java.sql.Date.valueOf(birthdate));
             memberPs.setString(5, email);
             memberPs.setString(6, phoneNumber);
-            memberPs.setString(7, "manager");
+            memberPs.setString(7, "employee");
             memberPs.executeUpdate();
             
             // Lấy ID vừa insert
@@ -380,7 +380,7 @@ public class DefaultAccountInitializer {
             PreparedStatement employeePs = conn.prepareStatement(employeeSql);
             employeePs.setInt(1, memberId);
             employeePs.setString(2, position);
-            employeePs.setString(3, "true");
+            employeePs.setInt(3, 1); // 1 = active (true), 0 = inactive (false)
             employeePs.executeUpdate();
             employeePs.close();
             

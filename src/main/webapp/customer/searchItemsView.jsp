@@ -80,8 +80,8 @@
                                                 <li class="page-item disabled"><a class="page-link">...</a></li>
                                             </c:if>
                                             <c:forEach var="p" items="${pageRange}">
-                                                <li class="page-item <c:if test='${p == currentPage}'>active</c:if>'">
-                                                    <a class="page-link" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${p}">${p}</a>
+                                                <li class="page-item <c:if test='${p == currentPage}'>active</c:if>">
+                                                    <a class="page-link <c:if test='${p == currentPage}'>bg-primary text-white fw-bold</c:if>" href="${pageContext.request.contextPath}/ItemServlet?action=search&keyword=${keyword}&page=${p}">${p}</a>
                                                 </li>
                                             </c:forEach>
                                             <c:if test="${ellipsisEnd}">

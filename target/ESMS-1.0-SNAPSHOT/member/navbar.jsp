@@ -3,7 +3,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
         <c:choose>
-            <c:when test="${not empty sessionScope.currentUser and sessionScope.currentUser.role eq 'manager'}">
+            <c:when test="${not empty sessionScope.currentUser and sessionScope.currentUser.role eq 'employee' and sessionScope.employeePosition eq 'manager'}">
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/manager/managerHomeView.jsp">
                     Siêu thị PTIT
                 </a>

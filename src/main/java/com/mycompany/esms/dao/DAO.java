@@ -14,7 +14,7 @@ public class DAO {
         if (con == null) {
             if (con == null) {
                 // Các biến cấu hình kết nối được khai báo cục bộ trong phương thức này
-                String jdbcUrl = "jdbc:mysql://localhost:3306/esms2?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
+                String jdbcUrl = "jdbc:mysql://localhost:3306/esms?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
                 String jdbcUsername = "root";
                 String jdbcPassword = "anacondaxs5";
                 try {

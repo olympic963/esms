@@ -1,5 +1,6 @@
 package com.mycompany.esms.servlet;
 
+import com.mycompany.esms.dao.MemberDAO;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -48,6 +49,7 @@ public class AuthenticationFilter implements Filter {
                               requestURI.equals(contextPath + "/auth/register") ||
                               requestURI.equals(contextPath + "/member/login.jsp") ||
                               requestURI.equals(contextPath + "/member/register.jsp") ||
+                              requestURI.equals(contextPath + "/member/accountLocked.jsp") ||
                               requestURI.equals(contextPath + "/member/error.jsp") ||
                               requestURI.contains("/css/") ||
                               requestURI.contains("/js/") ||
@@ -55,6 +57,22 @@ public class AuthenticationFilter implements Filter {
         
         // Check if user is authenticated
         boolean isLoggedIn = (session != null && session.getAttribute("currentUser") != null);
+        
+        // Load employee position if missing from session (for backward compatibility)
+        if (isLoggedIn) {
+            com.mycompany.esms.model.Member currentUser = (com.mycompany.esms.model.Member) session.getAttribute("currentUser");
+            if (currentUser != null && "employee".equalsIgnoreCase(currentUser.getRole())) {
+                String position = (String) session.getAttribute("employeePosition");
+                if (position == null) {
+                    // Load position from database
+                    MemberDAO memberDAO = new MemberDAO();
+                    position = memberDAO.getEmployeePosition(currentUser.getId());
+                    if (position != null) {
+                        session.setAttribute("employeePosition", position);
+                    }
+                }
+            }
+        }
         
         // If already logged in and trying to access login/register pages, redirect to appropriate dashboard based on role
         boolean isAuthPage = requestURI.equals(contextPath + "/auth/showLogin") ||
@@ -64,13 +82,19 @@ public class AuthenticationFilter implements Filter {
                              requestURI.equals(contextPath + "/auth/register") ||
                              requestURI.equals(contextPath + "/member/register.jsp");
         if (isLoggedIn && isAuthPage) {
-            // Redirect based on user role
+            // Redirect based on user role and position
             com.mycompany.esms.model.Member currentUser = (com.mycompany.esms.model.Member) session.getAttribute("currentUser");
-            if (currentUser != null && "manager".equalsIgnoreCase(currentUser.getRole())) {
-                httpResponse.sendRedirect(contextPath + "/manager/managerHomeView.jsp");
-            } else {
-                httpResponse.sendRedirect(contextPath + "/customer/customerHomeView.jsp");
+            if (currentUser != null) {
+                String role = currentUser.getRole();
+                if ("employee".equalsIgnoreCase(role)) {
+                    String position = (String) session.getAttribute("employeePosition");
+                    if (position != null && "manager".equalsIgnoreCase(position)) {
+                        httpResponse.sendRedirect(contextPath + "/manager/managerHomeView.jsp");
+                        return;
+                    }
+                }
             }
+            httpResponse.sendRedirect(contextPath + "/customer/customerHomeView.jsp");
             return;
         }
         
@@ -81,9 +105,19 @@ public class AuthenticationFilter implements Filter {
             return;
         }
         if (isManagerPage && isLoggedIn) {
-            // Check if user has manager role
+            // Check if user has manager position (employee with position = "manager")
             com.mycompany.esms.model.Member currentUser = (com.mycompany.esms.model.Member) session.getAttribute("currentUser");
-            if (currentUser == null || !"manager".equalsIgnoreCase(currentUser.getRole())) {
+            if (currentUser == null) {
+                httpResponse.sendRedirect(contextPath + "/customer/customerHomeView.jsp");
+                return;
+            }
+            String role = currentUser.getRole();
+            if (!"employee".equalsIgnoreCase(role)) {
+                httpResponse.sendRedirect(contextPath + "/customer/customerHomeView.jsp");
+                return;
+            }
+            String position = (String) session.getAttribute("employeePosition");
+            if (position == null || !"manager".equalsIgnoreCase(position)) {
                 httpResponse.sendRedirect(contextPath + "/customer/customerHomeView.jsp");
                 return;
             }

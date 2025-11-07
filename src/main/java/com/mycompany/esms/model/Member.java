@@ -12,6 +12,8 @@ public class Member {
     private String email;
     private String phoneNumber;
     private String role;
+    private int failedAttempts;
+    private boolean locked;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -36,4 +38,10 @@ public class Member {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
+
+    public int getFailedAttempts() { return failedAttempts; }
+    public void setFailedAttempts(int failedAttempts) { this.failedAttempts = failedAttempts; }
+
+    public boolean isLocked() { return locked; }
+    public void setLocked(boolean locked) { this.locked = locked; }
 }
