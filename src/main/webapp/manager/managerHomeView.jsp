@@ -14,7 +14,7 @@
                 <div class="card-body text-center">
                     <h1 class="h4 mb-4 text-dark">Trang chủ quản lý</h1>
                     <div class="d-grid gap-2">
-                        <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/manager/selectStatisticsView.jsp">
+                        <a id="viewStat" class="btn btn-primary w-100" href="${pageContext.request.contextPath}/manager/selectStatisticsView.jsp">
                             Xem thống kê
                         </a>
                     </div>

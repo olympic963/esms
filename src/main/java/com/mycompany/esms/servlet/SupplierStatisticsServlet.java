@@ -43,7 +43,7 @@ public class SupplierStatisticsServlet extends HttpServlet {
         }
 
         List<SupplierStatistic> stats = dao.getSupplierStatistics(startDate, endDate);
-        request.setAttribute("stats", stats);
+        request.setAttribute("listSupplierStatistics", stats);
         request.setAttribute("startDate", startDate.toString());
         request.setAttribute("endDate", endDate.toString());
         request.getRequestDispatcher("/manager/supplierStatisticsView.jsp").forward(request, response);

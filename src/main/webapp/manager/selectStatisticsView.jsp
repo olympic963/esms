@@ -14,7 +14,7 @@
                 <div class="card-body text-center">
                     <h1 class="h4 mb-4 text-dark">Xem thống kê</h1>
                     <div class="d-grid gap-2">
-                        <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/manager/supplierStatisticsView.jsp">
+                        <a id="supplierStat" class="btn btn-primary w-100" href="${pageContext.request.contextPath}/manager/supplierStatisticsView.jsp">
                            Thống kê nhà cung cấp
                         </a>
                     </div>

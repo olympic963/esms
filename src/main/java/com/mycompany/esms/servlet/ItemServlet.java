@@ -66,7 +66,7 @@ public class ItemServlet extends HttpServlet {
 
         request.setAttribute("searched", true);
         request.setAttribute("keyword", keyword.trim());
-        request.setAttribute("items", items);
+		request.setAttribute("listItem", items);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("offset", offset);

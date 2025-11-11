@@ -49,7 +49,7 @@ public class ImportInvoiceServlet extends HttpServlet {
         request.setAttribute("supplierName", supplierName);
         request.setAttribute("startDate", startDate.toString());
         request.setAttribute("endDate", endDate.toString());
-        request.setAttribute("invoices", invoices);
+        request.setAttribute("listImportInvoice", invoices);
         request.getRequestDispatcher("/manager/importedSupplierView.jsp").forward(request, response);
     }
 
@@ -82,7 +82,7 @@ public class ImportInvoiceServlet extends HttpServlet {
         ImportInvoice invoice = details.get(0).getImportInvoice();
         
         request.setAttribute("invoice", invoice);
-        request.setAttribute("details", details);
+        request.setAttribute("listImportDetails", details);
         request.getRequestDispatcher("/manager/importDetailsView.jsp").forward(request, response);
     }
 }

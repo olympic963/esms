@@ -28,13 +28,13 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-2 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary w-75">Xem</button>
+                            <button id="view" type="submit" class="btn btn-primary w-75">Xem</button>
                         </div>
                     </form>
                     
-                    <c:if test="${not empty stats}">
+                    <c:if test="${not empty listSupplierStatistics}">
                         <div class="table-responsive mt-3">
-                            <table class="table table-bordered align-middle text-center">
+                            <table id="tblSupplierStatistics" class="table table-bordered align-middle text-center">
                                 <thead class="table-light">
                                     <tr>
                                         <th>STT</th>
@@ -49,7 +49,7 @@
                                     <c:set var="sumQty" value="0" />
                                     <c:set var="sumValue" value="0" />
                                     <c:set var="sumCount" value="0" />
-                                    <c:forEach var="row" items="${stats}" varStatus="st">
+                                    <c:forEach var="row" items="${listSupplierStatistics}" varStatus="st">
                                         <tr>
                                             <td>${st.index + 1}</td>
                                             <td class="text-start">${row.supplierName}</td>
@@ -61,7 +61,7 @@
                                             </td>
                                             <td>${row.importCount}</td>
                                             <td>
-                                                <a class="btn btn-sm btn-outline-primary"
+                                                <a id="showImportedSupplier" class="btn btn-sm btn-outline-primary"
                                                    href="${pageContext.request.contextPath}/manager/importedSupplier?supplierId=${row.supplierId}&startDate=${startDate}&endDate=${endDate}">Chọn</a>
                                             </td>
                                         </tr>
@@ -84,7 +84,7 @@
                             </table>
                         </div>
                         <div class="text-center mt-3">
-                            <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/manager/selectStatisticsView.jsp">Quay lại</a>
+                            <a id="back" class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/manager/selectStatisticsView.jsp">Quay lại</a>
                         </div>
                     </c:if>
                 </div>

@@ -63,7 +63,7 @@
                                 <div class="mb-3 d-flex align-items-center gap-2">
                                     <strong>Số lượng:</strong>
                                     <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="${item.stockQuantity}" style="width: 100px;">
-                                    <button type="button" class="btn btn-primary" onclick="addToCart()">Thêm vào giỏ hàng</button>
+                                    <button type="button" class="btn btn-primary" id="buy" onclick="addToCart()">Thêm vào giỏ hàng</button>
                                 </div>
                             </div>
                         </c:otherwise>

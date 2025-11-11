@@ -24,12 +24,12 @@
                         </div>
                     </div>
 
-                    <c:if test="${empty invoices}">
+                    <c:if test="${empty listImportInvoice}">
                         <div class="alert alert-info mb-0">Không có lần nhập hàng nào trong khoảng thời gian đã chọn.</div>
                     </c:if>
-                    <c:if test="${not empty invoices}">
+                    <c:if test="${not empty listImportInvoice}">
                         <div class="table-responsive">
-                            <table class="table table-bordered align-middle text-center">
+                            <table id="tblImportInvoice" class="table table-bordered align-middle text-center">
                                 <thead class="table-light">
                                     <tr>
                                         <th>STT</th>
@@ -42,7 +42,7 @@
                                 <tbody>
                                     <c:set var="sumQty" value="0"/>
                                     <c:set var="sumValue" value="0"/>
-                                    <c:forEach var="inv" items="${invoices}" varStatus="st">
+                                    <c:forEach var="inv" items="${listImportInvoice}" varStatus="st">
                                         <tr>
                                             <td>${st.index + 1}</td>
                                             <td>
@@ -60,7 +60,7 @@
                                                 <fmt:formatNumber value="${inv.totalValue}" type="number" groupingUsed="true" var="fmtValue"/>
                                                 ${fmtValue} VND
                                             </td>
-                                            <td><a href="${pageContext.request.contextPath}/manager/importDetails?importInvoiceId=${inv.id}" class="btn btn-sm btn-outline-primary">Chọn</a></td>
+                                            <td><a id="showImportDetails" href="${pageContext.request.contextPath}/manager/importDetails?importInvoiceId=${inv.id}" class="btn btn-sm btn-outline-primary">Chọn</a></td>
                                         </tr>
                                         <c:set var="sumQty" value="${sumQty + inv.totalQuantity}"/>
                                         <c:set var="sumValue" value="${sumValue + inv.totalValue}"/>
@@ -80,7 +80,7 @@
                         </div>
                     </c:if>
                     <div class="text-center mt-3">
-                        <a class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/manager/supplierStatistics?startDate=${startDate}&endDate=${endDate}">Quay lại</a>
+                        <a id="back" class="btn btn-outline-secondary" href="${pageContext.request.contextPath}/manager/supplierStatistics?startDate=${startDate}&endDate=${endDate}">Quay lại</a>
                     </div>
                 </div>
             </div>

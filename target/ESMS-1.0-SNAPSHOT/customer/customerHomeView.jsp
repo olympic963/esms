@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Trang khách hàng</title>
+        <title>Trang chủ khách hàng</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body class="bg-light">
@@ -14,9 +14,9 @@
                 <div class="card-body text-center">
                     <h1 class="h4 mb-4 text-dark">Trang chủ khách hàng</h1>
                     <div class="d-grid gap-2">
-                        <a class="btn btn-primary w-100" href="${pageContext.request.contextPath}/customer/searchItemsView.jsp">Tìm kiếm mặt hàng</a>
+                        <a id="searchItems" class="btn btn-primary w-100" href="${pageContext.request.contextPath}/customer/searchItemsView.jsp">Tìm kiếm mặt hàng</a>
                         <c:if test="${empty sessionScope.currentUser}">
-                            <a class="btn btn-outline-primary w-100" href="${pageContext.request.contextPath}/auth/showLogin">Đăng nhập</a>
+							<a id="login" class="btn btn-outline-primary w-100" href="${pageContext.request.contextPath}/auth/showLogin">Đăng nhập</a>
                         </c:if>
                     </div>
                 </div>

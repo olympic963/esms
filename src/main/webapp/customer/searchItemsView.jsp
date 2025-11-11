@@ -26,19 +26,19 @@
                             <input type="text" class="form-control" name="keyword" placeholder="Nhập tên mặt hàng" value="${keyword}">
                         </div>
                         <div class="col-12 col-md-4 d-grid">
-                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                            <button id="search" type="submit" class="btn btn-primary">Tìm kiếm</button>
                         </div>
                     </form>
 
                     <c:if test="${searched}">
                         <c:choose>
-                            <c:when test="${empty items}">
+                            <c:when test="${empty listItem}">
                                 <div class="alert alert-info mb-0">Không tìm thấy kết quả phù hợp.</div>
                             </c:when>
                             <c:otherwise>
                                 <fmt:setLocale value="de_DE"/>
                                 <div class="table-responsive">
-                                    <table class="table table-striped align-middle">
+                                    <table id="tblItem" class="table table-striped align-middle">
                                         <thead>
                                             <tr>
                                                 <th style="width:80px;">STT</th>
@@ -48,7 +48,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="it" items="${items}" varStatus="status">
+                                            <c:forEach var="it" items="${listItem}" varStatus="status">
                                                 <tr>
                                                     <td>${offset + status.index + 1}</td>
                                                     <td>${it.name}</td>

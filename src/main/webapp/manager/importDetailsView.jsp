@@ -57,7 +57,7 @@
                         </div>
                         
                         <div class="table-responsive">
-                            <table class="table table-bordered align-middle">
+                            <table id="tblImportDetails" class="table table-bordered align-middle">
                                 <thead class="table-light">
                                     <tr class="text-center">
                                         <th>STT</th>
@@ -70,7 +70,7 @@
                                 <tbody>
                                     <c:set var="totalQty" value="0"/>
                                     <c:set var="totalAmount" value="0"/>
-                                    <c:forEach var="detail" items="${details}" varStatus="st">
+                                    <c:forEach var="detail" items="${listImportDetails}" varStatus="st">
                                         <tr>
                                             <td class="text-center">${st.index + 1}</td>
                                             <td>
@@ -113,7 +113,7 @@
                     </c:if>
                     
                     <div class="text-center mt-4">
-                        <a class="btn btn-outline-secondary" href="javascript:history.back()">Quay lại</a>
+                        <a id="back" class="btn btn-outline-secondary" href="javascript:history.back()">Quay lại</a>
                     </div>
                 </div>
             </div>
